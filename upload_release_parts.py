@@ -15,7 +15,9 @@ def run_json(command):
 
 
 def assets(gh, repo, tag):
-    release = run_json([str(gh), "api", f"repos/{repo}/releases/tags/{tag}"])
+    # `releases/tags/{tag}` does not expose an unpublished draft release.
+    # The gh release command resolves both draft and published releases.
+    release = run_json([str(gh), "release", "view", tag, "--repo", repo, "--json", "assets"])
     return {item["name"]: int(item["size"]) for item in release.get("assets", [])}
 
 
@@ -82,4 +84,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
