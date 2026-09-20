@@ -56,6 +56,7 @@ def main():
     parser.add_argument("--manifest", required=True, type=Path)
     parser.add_argument("--temp-dir", required=True, type=Path)
     parser.add_argument("--workers", type=int, default=1)
+    parser.add_argument("--upload-timeout-seconds", type=int, default=1200)
     args = parser.parse_args()
 
     args.temp_dir.mkdir(parents=True, exist_ok=True)
@@ -81,11 +82,15 @@ def main():
         materialize(args.archive, temp, int(row["byte_start"]), size, row["sha256"])
         for attempt in range(1, 6):
             emit({"status": "UPLOADING", "part": row["part_number"], "parts": len(rows), "attempt": attempt, "name": name, "bytes": size})
-            completed = subprocess.run(
-                [str(args.gh), "release", "upload", args.tag, str(temp), "--repo", args.repo],
-                text=True,
-                capture_output=True,
-            )
+            try:
+                completed = subprocess.run(
+                    [str(args.gh), "release", "upload", args.tag, str(temp), "--repo", args.repo],
+                    text=True,
+                    capture_output=True,
+                    timeout=args.upload_timeout_seconds,
+                )
+            except subprocess.TimeoutExpired:
+                completed = subprocess.CompletedProcess([], 124, "", f"upload timed out after {args.upload_timeout_seconds} seconds")
             if completed.returncode == 0:
                 break
             current = assets(args.gh, args.repo, args.tag)
