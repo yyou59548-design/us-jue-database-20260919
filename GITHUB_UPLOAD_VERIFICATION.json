@@ -1,0 +1,16 @@
+{
+  "status": "VERIFIED",
+  "repository": "yyou59548-design/us-jue-database-20260919",
+  "repository_url": "https://github.com/yyou59548-design/us-jue-database-20260919",
+  "visibility": "PRIVATE",
+  "release_tag": "data-20260919",
+  "release_url": "https://github.com/yyou59548-design/us-jue-database-20260919/releases/tag/data-20260919",
+  "published_at_utc": "2026-09-20T19:55:05Z",
+  "release_asset_count": 84,
+  "data_part_count": 78,
+  "data_part_bytes": 146316247853,
+  "remote_sha256_mismatches": 0,
+  "original_archive": "US_JUE_DATABASE_20260919.zip",
+  "original_archive_sha256": "7f930eec678bcce9c62084b7d68c5e75417cbeb07b1c4cd4cd56a1e42c2447db",
+  "notes": "Every numbered release asset matched split_manifest.csv by name, byte size, and GitHub-reported SHA256 digest before the private release was published."
+}
