@@ -1,0 +1,447 @@
+{
+  "status": "VERIFIED",
+  "verified_at_utc": "2026-09-22T23:10:03+00:00",
+  "repository": "yyou59548-design/us-jue-database-20260919",
+  "release_tag": "data-20260919-public",
+  "release_url": "https://github.com/yyou59548-design/us-jue-database-20260919/releases/tag/untagged-f3ab0eb405afe0015332",
+  "archive_name": "US_JUE_DATABASE_20260919_PUBLIC.zip",
+  "archive_bytes": 145975256041,
+  "archive_sha256": "9025b59c1f7afe1b93b348fa75e91ec9e7176a19af15cfad89679515d72a3fc9",
+  "part_count": 77,
+  "part_bytes_total": 145975256041,
+  "helper_asset_count": 9,
+  "parts": [
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part001",
+      "bytes": 1900000000,
+      "sha256": "6478d2bc035114385d4d97de63a14903cad6322a200cd220ce510a6091a2fa82"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part002",
+      "bytes": 1900000000,
+      "sha256": "917376c241cf7ae323c915b94854ebdade8fba769f48cf6266c9b0933752a112"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part003",
+      "bytes": 1900000000,
+      "sha256": "30a1d885fb7cea5fa89005204732acb923eb35dcd6a01367c1821bd30c399096"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part004",
+      "bytes": 1900000000,
+      "sha256": "65053e282ebc8da1c5819e556bb3679b2c6a679180ac71746baccefc124e597d"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part005",
+      "bytes": 1900000000,
+      "sha256": "49e178537273c3f28eec18771257acbd6b369e32faad6140b3af2da46d1efb70"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part006",
+      "bytes": 1900000000,
+      "sha256": "2346aedb4d62bbd0eef4268c528913f97c94866575fe32e9b0996fdc57b2804b"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part007",
+      "bytes": 1900000000,
+      "sha256": "a3ccca17c340bc3bed1c7075e483387307c60b4d54f6e068159f847d27e60d6d"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part008",
+      "bytes": 1900000000,
+      "sha256": "f11e7ccb6196ea85e9617b29063e1ed3a38a0c9d6bee43ef57239c8bbb9b7618"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part009",
+      "bytes": 1900000000,
+      "sha256": "6b554166b3a7d0b4a7943e84c1220333ea90c416bd7f46c88303f0a40abe6ccb"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part010",
+      "bytes": 1900000000,
+      "sha256": "b53fde8333e6e236875449365781ad2e9cfaaa28c40773c19dc6d15fee551f2b"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part011",
+      "bytes": 1900000000,
+      "sha256": "d083d9a0277f0e22b482eeb7fd8ef2a045aa87fbab8e2b276afc1c5be5b47edf"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part012",
+      "bytes": 1900000000,
+      "sha256": "50ef3a6f822c3404d7e03582d39036e8d72defdde87f95aa6312458604dbcf36"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part013",
+      "bytes": 1900000000,
+      "sha256": "7e57429e15623d7aa46e688efb6475fda855b922d177b94f2472ef43ccbae8ef"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part014",
+      "bytes": 1900000000,
+      "sha256": "7de4613630c482394844d8e827d86816bb5cd9504e75e4c21e6fbb5454044f77"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part015",
+      "bytes": 1900000000,
+      "sha256": "f759a608b37df3855e4eb14fbaf45a73435725e16c51e1f0dbb7c73664f47ae0"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part016",
+      "bytes": 1900000000,
+      "sha256": "960d7b71b93d213a88b0b171b8ecfaa298c51bf69007662b7196d0f6cf1dc34f"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part017",
+      "bytes": 1900000000,
+      "sha256": "b9a621b6b92f0c1e725deb6468f1dc41c6f4c50cb4c502c864655c80d338e774"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part018",
+      "bytes": 1900000000,
+      "sha256": "033e6e64971e9eb1d0047d7ba74a87f02e239d60746393702ba985af0985d956"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part019",
+      "bytes": 1900000000,
+      "sha256": "d2fc3ef3a51a673415b1fd71ef849fd8e8f5436ba891abf1f36b1708e13a322b"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part020",
+      "bytes": 1900000000,
+      "sha256": "12030c25b13321e492472c87a4e45ad26e2e98a1c1f1ce387ba9458b5bca445a"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part021",
+      "bytes": 1900000000,
+      "sha256": "d823216d0a199a78e10edd5627d934f3e7f50f131eaa62bd5506e553b77a5dfb"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part022",
+      "bytes": 1900000000,
+      "sha256": "a1df80ad9070c7c48c23466a5010cf3cceabfc585aa280a3348c3810cf37a3d9"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part023",
+      "bytes": 1900000000,
+      "sha256": "e58e588d6cc556066f6cacf0208f2652826cf4a1260392a86b1e6a2edd1e7b15"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part024",
+      "bytes": 1900000000,
+      "sha256": "347d1f8a34dcd07582f32209d56e2740cd8c9afe30288ba806470f17e9e97b61"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part025",
+      "bytes": 1900000000,
+      "sha256": "7adb05cd687d35f4b41fb3d42ec4302bd62a84ff204e97bd95608d059baf7f3b"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part026",
+      "bytes": 1900000000,
+      "sha256": "51bb1ff386ad37b5a93d0262bad4d2c300ef6fba3cf4cf0d96dcfe7ea7c52f25"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part027",
+      "bytes": 1900000000,
+      "sha256": "c1ba44fe40bcd46412c00bb3f06336941afec3e35eb5ef1bba4579802d466661"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part028",
+      "bytes": 1900000000,
+      "sha256": "10c0059633fe8d398e241c675361a720d2c4bdfd31b0d5f5a677c66c44862706"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part029",
+      "bytes": 1900000000,
+      "sha256": "81217b661029458ef6006a8e9e3cb023374f8f80ee4eda198ac277f9e9775513"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part030",
+      "bytes": 1900000000,
+      "sha256": "132bd78d48965670eae75cb16814b70fba4aeff9cda25ce0b32550d7b54208f6"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part031",
+      "bytes": 1900000000,
+      "sha256": "738b0e5d1336d1d5d53f8c9daea6937abc45e433a13b1f5f883199e8f3c1888d"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part032",
+      "bytes": 1900000000,
+      "sha256": "399c38b97f9e5d025f4614520ec9df07f108688f6e771a7f1d633b481be16f00"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part033",
+      "bytes": 1900000000,
+      "sha256": "cdd96556c5049958425c119fa2ca57414edb69ce8f795a891f4ee9281c047a92"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part034",
+      "bytes": 1900000000,
+      "sha256": "2cb2a5b6115e87c243f3e34120870db72302ca0bb3b2b6c8a2e845b2275fa4fa"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part035",
+      "bytes": 1900000000,
+      "sha256": "4c0b0a6cf6aa3610fd80339cd08d7a6b78bee12e75c4feab0a2dafd05ee0a1ee"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part036",
+      "bytes": 1900000000,
+      "sha256": "c6e4ab4937ca2025826c99764c66344e5041c8e4f8342faede55409679171aab"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part037",
+      "bytes": 1900000000,
+      "sha256": "db5e917787b2157606cc69b2c4229ab5c0b2501064249ad2176fadd23ebb5adc"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part038",
+      "bytes": 1900000000,
+      "sha256": "16ae3c664b85407c613ad6e948d72bb999098fb3f1ed8bf3dc04285018dede24"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part039",
+      "bytes": 1900000000,
+      "sha256": "b391963a6b5683d0376ee51259cc574a6e012c5722a29d0539d41f749a24bcee"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part040",
+      "bytes": 1900000000,
+      "sha256": "254d296d875a8a0aeb6fd6b76911cb1edaac3d4b9ad277dfefed430a1cb47c47"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part041",
+      "bytes": 1900000000,
+      "sha256": "f21ab4e3f88392dd87e0c3883a21d421b96bdb253d637978ed530eec4f0ac7fe"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part042",
+      "bytes": 1900000000,
+      "sha256": "6fddc73f128184189d2ceb2cab3c37d909eb992b5d01e31d4e0ff2c046bf6284"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part043",
+      "bytes": 1900000000,
+      "sha256": "e98cd63c89606d2c1cbe86c7f225b1d2d1feb3d2cc266c8ffb372e56aca0ea3e"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part044",
+      "bytes": 1900000000,
+      "sha256": "113f4d56372b07b410951a8e48abbd3dff3ab2d40d397fedafe7eaa177625084"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part045",
+      "bytes": 1900000000,
+      "sha256": "15fe6466b3b25f5650e295f3e9cbc6c9dd6976a8e57f3107d10653517a6fde4a"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part046",
+      "bytes": 1900000000,
+      "sha256": "203aa2434f6e3a019d98d4908c8059a9608601c73e7ac4b5e87d5b5e79aff90f"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part047",
+      "bytes": 1900000000,
+      "sha256": "f0a8894828c12e4969d0e767db12d91fae71a43214ed60c6131cc2d73e0cb305"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part048",
+      "bytes": 1900000000,
+      "sha256": "8edcd4793e4a4d754b90e7c8635849f3b8acdd3208587a93f5e6189f35eef67a"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part049",
+      "bytes": 1900000000,
+      "sha256": "841cab8d2d3e38d8f25c519f3dce8180d67ed5bc70070907fd57a4e750093d19"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part050",
+      "bytes": 1900000000,
+      "sha256": "36824b230fc1fda83d4d291200dbe043e10b7e66c7c04cd29405bc49f0abc62b"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part051",
+      "bytes": 1900000000,
+      "sha256": "20dcdedb6a08d6eae3168df0f92752d89edc580127396a2f057632cf3292f5ca"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part052",
+      "bytes": 1900000000,
+      "sha256": "0c61d3534864bcc315389dc9b816a91cc8c3e3c322c3d012147007f9cbe438a1"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part053",
+      "bytes": 1900000000,
+      "sha256": "7470c273c14da7eb4c9d7c4143e62bfff635cd789e051fc70ca193dcf4b47956"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part054",
+      "bytes": 1900000000,
+      "sha256": "8dde21b49d77a0f6c81c7704de25f9e05f2a97c7618217d4183eac7f5031dd90"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part055",
+      "bytes": 1900000000,
+      "sha256": "35011a674be1ba87b76f4917cdb75e0b197633f7c24f4cda9b6f366371837481"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part056",
+      "bytes": 1900000000,
+      "sha256": "265fefae9d319abdb3f9824b9b0c3e9f9542eb8da9cb9ef9bf316fa5905feba2"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part057",
+      "bytes": 1900000000,
+      "sha256": "9d8fc3a122aa6abe99025ba4713aa94d54288f18d0347c6d5fbfcfc0f7043126"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part058",
+      "bytes": 1900000000,
+      "sha256": "162a301f50104f462a3bd4731c4332d653e96de6b2aaaef03fa67cca35fcebe1"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part059",
+      "bytes": 1900000000,
+      "sha256": "d2e8e88cbb395136dccbae589d8996b0a52ee958eaeb0e2fa83dfd48f53577a3"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part060",
+      "bytes": 1900000000,
+      "sha256": "36ca765af7fed6f18474c6bd3b0555c5c7c2fae7b19ed660de8108061c156cb6"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part061",
+      "bytes": 1900000000,
+      "sha256": "3cb7681f23faf73171870e5a02ac1246432a3926d403242b0e9301161606d24a"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part062",
+      "bytes": 1900000000,
+      "sha256": "1d1a93503f2d37a69b095ab5eddd41b65ea5e9ff468af48aad455d3bddef504a"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part063",
+      "bytes": 1900000000,
+      "sha256": "52f63e7ecf997d42ed1e7eacd641e4e9ecf2842fdfe84ccdf91cb7b0639a6f14"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part064",
+      "bytes": 1900000000,
+      "sha256": "78f2b57b2d7f14a83333a199a96c9befa3db64158c3c3175f46a9bac43b769bc"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part065",
+      "bytes": 1900000000,
+      "sha256": "741b5a9b6809922c43459244ce5b4d56e6e5cec75331ecdae4dd2f68442c8b7e"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part066",
+      "bytes": 1900000000,
+      "sha256": "f6630b8e7d2223a245380367a1791bca2b55dd7e9583b5ac2b58c49ca44d10ff"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part067",
+      "bytes": 1900000000,
+      "sha256": "fe1c5fe8a1fec21a7d5dd3bfbab4d29fdc9065fde40e71c7ca43c9055cdd7432"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part068",
+      "bytes": 1900000000,
+      "sha256": "5154728dc0a2b5bde377545e3c2cd8dc359d334edb5509f882184ea4b24ad0b3"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part069",
+      "bytes": 1900000000,
+      "sha256": "22c223d202e80f28e9dd7a4d398360d76672e2ea82bc6d66334818e2a26fb5fd"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part070",
+      "bytes": 1900000000,
+      "sha256": "e61ea21072736048f81b1dca6436c28b67dd1025cdd21b5592f10b2fbc0fe64b"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part071",
+      "bytes": 1900000000,
+      "sha256": "6169690f5ccb9b6360bcf6b3f1fe612d7f861bd3d408fbc22346db0e26299560"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part072",
+      "bytes": 1900000000,
+      "sha256": "631c9d0c0ddf002ba04cb28b1a51b2ccc49e81a450d3e12b4e425d19aca018c1"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part073",
+      "bytes": 1900000000,
+      "sha256": "cdd88277261a413568848ca367569e38a52deb35b45971a310bc4d1327ed3428"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part074",
+      "bytes": 1900000000,
+      "sha256": "4e8444b81637141fee7a9d00cd305adf96b3b8bb3e175826f3ffbaee087f8812"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part075",
+      "bytes": 1900000000,
+      "sha256": "9ffeaa6dc90b38a162dadb01a5bdb267e661c0517f67a0198fb951223b41cee7"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part076",
+      "bytes": 1900000000,
+      "sha256": "9fcbc1e9ff30a54f252bfc135726285dff65aafbb3db2cdf93e99290d3930e31"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.part077",
+      "bytes": 1575256041,
+      "sha256": "8f302b1342d713b182428737d258b971e2fe237f9926be895f6d8e0d6bb58315"
+    }
+  ],
+  "helper_assets": [
+    {
+      "name": "DATA_ACQUISITION_REPORT.md",
+      "bytes": 20592,
+      "sha256": "62024a22edb9b2ba3c564b250bd606fc43e68dbdca3f69566455485120b44a1b"
+    },
+    {
+      "name": "DATA_USE_AND_REDISTRIBUTION.md",
+      "bytes": 1676,
+      "sha256": "48a8b3eedc105691e86a3493bbe2100899d0e4f565f9b7e858570741828461f4"
+    },
+    {
+      "name": "package_report.json",
+      "bytes": 508,
+      "sha256": "1a104801d58371a848c6f630d4d2d1df0999bb49ddea863fd0b67ca04752550a"
+    },
+    {
+      "name": "public_release_exclusions.csv",
+      "bytes": 1962,
+      "sha256": "9a315006300644b4be99df396d6f09c917756b5999f8b6d477b5d53f37b93888"
+    },
+    {
+      "name": "reassemble.ps1",
+      "bytes": 1422,
+      "sha256": "48fa7d1c149f36094793d2e541a3babfb580590461a64cf33daf2065874bf35d"
+    },
+    {
+      "name": "reassemble.sh",
+      "bytes": 1157,
+      "sha256": "cc78faf5a3212b4b363bfb5a0ea7205989090443df5444af63e4f18b8664a84e"
+    },
+    {
+      "name": "split_manifest.csv",
+      "bytes": 10522,
+      "sha256": "a550a7090f591c51e6a093266361e958a068deafe21b52cca5a0b49a059a59a0"
+    },
+    {
+      "name": "split_metadata.json",
+      "bytes": 226,
+      "sha256": "9e93288a5c83547ef761fbc020bea5d913db40818dcce8f955d3a76061079632"
+    },
+    {
+      "name": "US_JUE_DATABASE_20260919_PUBLIC.zip.sha256",
+      "bytes": 103,
+      "sha256": "415c2144d336d602da397eb18cea4af2e54efa8321d565860c5055c9970e2ca4"
+    }
+  ]
+}
