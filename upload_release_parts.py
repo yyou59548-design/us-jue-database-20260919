@@ -79,36 +79,43 @@ def main():
             raise RuntimeError(f"Remote asset has unexpected size: {name}")
 
         temp = args.temp_dir / name
-        materialize(args.archive, temp, int(row["byte_start"]), size, row["sha256"])
-        for attempt in range(1, 6):
-            emit({"status": "UPLOADING", "part": row["part_number"], "parts": len(rows), "attempt": attempt, "name": name, "bytes": size})
-            try:
-                completed = subprocess.run(
-                    [str(args.gh), "release", "upload", args.tag, str(temp), "--repo", args.repo],
-                    text=True,
-                    capture_output=True,
-                    timeout=args.upload_timeout_seconds,
-                )
-            except subprocess.TimeoutExpired:
-                completed = subprocess.CompletedProcess([], 124, "", f"upload timed out after {args.upload_timeout_seconds} seconds")
-            if completed.returncode == 0:
-                break
-            current = assets(args.gh, args.repo, args.tag)
-            if current.get(name) == size:
-                break
-            if attempt == 5:
-                raise RuntimeError(f"Upload failed after retries: {name}: {completed.stderr.strip()}")
-            emit({"status": "RETRYING", "part": row["part_number"], "attempt": attempt, "error": completed.stderr.strip()[-500:]})
-            time.sleep(10 * attempt)
-        temp.unlink()
-        emit({"status": "UPLOADED", "part": row["part_number"], "parts": len(rows), "name": name})
+        try:
+            materialize(args.archive, temp, int(row["byte_start"]), size, row["sha256"])
+            for attempt in range(1, 6):
+                emit({"status": "UPLOADING", "part": row["part_number"], "parts": len(rows), "attempt": attempt, "name": name, "bytes": size})
+                try:
+                    completed = subprocess.run(
+                        [str(args.gh), "release", "upload", args.tag, str(temp), "--repo", args.repo],
+                        text=True,
+                        capture_output=True,
+                        timeout=args.upload_timeout_seconds,
+                    )
+                except subprocess.TimeoutExpired:
+                    completed = subprocess.CompletedProcess([], 124, "", f"upload timed out after {args.upload_timeout_seconds} seconds")
+                if completed.returncode == 0:
+                    break
+                current = assets(args.gh, args.repo, args.tag)
+                if current.get(name) == size:
+                    break
+                if attempt == 5:
+                    raise RuntimeError(f"Upload failed after retries: {name}: {completed.stderr.strip()}")
+                emit({"status": "RETRYING", "part": row["part_number"], "attempt": attempt, "error": completed.stderr.strip()[-500:]})
+                time.sleep(10 * attempt)
+            emit({"status": "UPLOADED", "part": row["part_number"], "parts": len(rows), "name": name})
+        finally:
+            temp.unlink(missing_ok=True)
 
     if args.workers < 1:
         raise RuntimeError("workers must be at least 1")
     with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as executor:
         futures = [executor.submit(upload_one, row) for row in rows]
-        for future in concurrent.futures.as_completed(futures):
-            future.result()
+        try:
+            for future in concurrent.futures.as_completed(futures):
+                future.result()
+        except BaseException:
+            for future in futures:
+                future.cancel()
+            raise
 
     final_assets = assets(args.gh, args.repo, args.tag)
     missing = [row["part_name"] for row in rows if final_assets.get(row["part_name"]) != int(row["bytes"])]
