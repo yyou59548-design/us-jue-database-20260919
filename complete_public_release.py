@@ -219,13 +219,13 @@ def publish(args, verification: dict) -> None:
     repository = run_json(
         [str(args.gh), "repo", "view", args.repo, "--json", "isPrivate,visibility,url"]
     )
-    if not repository.get("isPrivate"):
-        raise RuntimeError("Safety stop: repository became public before private-release cleanup")
 
     old = run(
         [str(args.gh), "release", "view", args.old_tag, "--repo", args.repo],
         check=False,
     )
+    if old.returncode == 0 and not repository.get("isPrivate"):
+        raise RuntimeError("Safety stop: restricted legacy release exists in a public repository")
     if old.returncode == 0:
         run(
             [
@@ -246,31 +246,34 @@ def publish(args, verification: dict) -> None:
     if old_check.returncode == 0:
         raise RuntimeError("Old private release still exists; refusing to make repository public")
 
-    run(
-        [
-            str(args.gh),
-            "release",
-            "edit",
-            args.public_tag,
-            "--repo",
-            args.repo,
-            "--draft=false",
-            "--latest",
-            "--target",
-            "main",
-        ]
-    )
-    run(
-        [
-            str(args.gh),
-            "repo",
-            "edit",
-            args.repo,
-            "--visibility",
-            "public",
-            "--accept-visibility-change-consequences",
-        ]
-    )
+    current_public_release = release(args.gh, args.repo, args.public_tag)
+    if current_public_release.get("isDraft"):
+        run(
+            [
+                str(args.gh),
+                "release",
+                "edit",
+                args.public_tag,
+                "--repo",
+                args.repo,
+                "--draft=false",
+                "--latest",
+                "--target",
+                "main",
+            ]
+        )
+    if repository.get("isPrivate"):
+        run(
+            [
+                str(args.gh),
+                "repo",
+                "edit",
+                args.repo,
+                "--visibility",
+                "public",
+                "--accept-visibility-change-consequences",
+            ]
+        )
 
     final_repo = run_json(
         [str(args.gh), "repo", "view", args.repo, "--json", "isPrivate,visibility,url"]
