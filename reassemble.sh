@@ -2,15 +2,15 @@
 set -euo pipefail
 
 parts_dir="${1:-.}"
-output="${2:-US_JUE_DATABASE_20260919.zip}"
-expected="7f930eec678bcce9c62084b7d68c5e75417cbeb07b1c4cd4cd56a1e42c2447db"
+output="${2:-}"
 
-python3 - "$parts_dir" "$output" "$expected" <<'PY'
-import csv, hashlib, pathlib, sys
+python3 - "$parts_dir" "$output" <<'PY'
+import csv, hashlib, json, pathlib, sys
 
 root = pathlib.Path(sys.argv[1])
-output = root / sys.argv[2]
-expected = sys.argv[3]
+metadata = json.loads((root / "split_metadata.json").read_text(encoding="utf-8"))
+output = root / (sys.argv[2] or metadata["archive"])
+expected = metadata["archive_sha256"]
 rows = sorted(csv.DictReader((root / "split_manifest.csv").open(newline="", encoding="utf-8-sig")), key=lambda r: int(r["part_number"]))
 
 with output.open("wb") as dst:
@@ -32,4 +32,3 @@ if h.hexdigest() != expected:
     raise SystemExit("Final archive SHA256 mismatch")
 print(f"Verified: {output}")
 PY
-

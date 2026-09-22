@@ -1,12 +1,15 @@
 {
   "status": "VERIFIED",
-  "finished_at_utc": "2026-09-19T12:52:34+00:00",
-  "archive": "C:\\Users\\ZZH\\Documents\\Codex\\2026-09-19\\xia\\outputs\\US_JUE_DATABASE_20260919.zip",
-  "archive_bytes": 146316247853,
-  "archive_sha256": "7f930eec678bcce9c62084b7d68c5e75417cbeb07b1c4cd4cd56a1e42c2447db",
-  "payload_files": 36326,
-  "zip_members": 36328,
-  "input_bytes": 158350611366,
+  "public_release": true,
+  "finished_at_utc": "2026-09-22T08:45:34+00:00",
+  "archive": "US_JUE_DATABASE_20260919_PUBLIC.zip",
+  "archive_bytes": 145975256041,
+  "archive_sha256": "9025b59c1f7afe1b93b348fa75e91ec9e7176a19af15cfad89679515d72a3fc9",
+  "payload_files": 34678,
+  "zip_members": 34681,
+  "input_bytes": 158009506551,
+  "excluded_files": 3765,
+  "excluded_bytes": 7780622982,
   "zip_crc_and_every_payload_sha256_verified": true,
-  "elapsed_seconds": 1492
+  "elapsed_seconds": 1306
 }

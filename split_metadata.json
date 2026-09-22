@@ -1,7 +1,7 @@
 {
-  "archive": "US_JUE_DATABASE_20260919.zip",
-  "archive_bytes": 146316247853,
-  "archive_sha256": "7f930eec678bcce9c62084b7d68c5e75417cbeb07b1c4cd4cd56a1e42c2447db",
+  "archive": "US_JUE_DATABASE_20260919_PUBLIC.zip",
+  "archive_bytes": 145975256041,
+  "archive_sha256": "9025b59c1f7afe1b93b348fa75e91ec9e7176a19af15cfad89679515d72a3fc9",
   "part_bytes": 1900000000,
-  "parts": 78
+  "parts": 77
 }

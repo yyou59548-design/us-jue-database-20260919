@@ -2,6 +2,8 @@
 
 Snapshot: 2026-09-19T12:26:24+00:00.
 
+> **Public-release note:** acquisition counts below describe the complete local research snapshot. The public archive omits the source files listed in `public_release_exclusions.csv` because redistribution is prohibited or an item-specific redistribution grant was not established. Their provenance and official acquisition links remain documented.
+
 **Not complete.** P0 raw data, the four foundational products, and multiple P1 modules are physically present. Collection has stopped at the user request for packaging. The archive contains the acquired snapshot; incomplete targets, credential restrictions and provider gaps remain explicit. A file-integrity pass does not certify a balanced panel or historical geographic comparability.
 
 ## What was found?
