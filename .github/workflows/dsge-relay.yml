@@ -1,0 +1,82 @@
+name: DSGE binary relay
+
+on:
+  push:
+    paths:
+      - ".github/workflows/dsge-relay.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  relay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Download posterior files
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p relay
+          base="https://gregorboehl.com/data"
+
+          files=(
+            rank_spreads_exo_ztrend_SW_BAA_6420_ninit_0_meta.npz
+            rank_spreads_exo_ztrend_SW_BAA_6420_ninit_0_res.npz
+          )
+
+          for f in "${files[@]}"; do
+            echo "Downloading $f"
+            curl --fail --location \
+              --retry 8 --retry-all-errors --retry-delay 2 \
+              --connect-timeout 20 --max-time 900 \
+              --user-agent "Mozilla/5.0 GitHub-Actions-DSGE-Relay" \
+              "$base/$f" -o "relay/$f"
+          done
+
+          echo "Downloaded files:"
+          ls -lh relay
+          sha256sum relay/*.npz | tee relay/SHA256SUMS.txt
+
+      - name: Validate NPZ archives
+        shell: python
+        run: |
+          import hashlib
+          import json
+          import pathlib
+          import zipfile
+
+          manifest = {}
+
+          for p in sorted(pathlib.Path("relay").glob("*.npz")):
+              with zipfile.ZipFile(p) as zf:
+                  bad = zf.testzip()
+                  if bad is not None:
+                      raise RuntimeError(f"{p.name}: corrupt member {bad}")
+                  entries = zf.namelist()
+
+              digest = hashlib.sha256(p.read_bytes()).hexdigest()
+
+              manifest[p.name] = {
+                  "bytes": p.stat().st_size,
+                  "sha256": digest,
+                  "zip_entries": entries,
+              }
+
+          pathlib.Path("relay/MANIFEST.json").write_text(
+              json.dumps(manifest, indent=2),
+              encoding="utf-8",
+          )
+
+          print(json.dumps(manifest, indent=2))
+
+      - name: Upload relay artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dsge-6420-relay
+          path: relay/
+          compression-level: 0
+          retention-days: 3
+          if-no-files-found: error
