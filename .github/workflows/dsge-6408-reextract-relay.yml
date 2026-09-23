@@ -1,0 +1,59 @@
+name: DSGE short sample extraction asset relay
+
+on:
+  push:
+    paths:
+      - ".github/workflows/dsge-6408-reextract-relay.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  relay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Download short sample and 9820 assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p relay
+          base="https://gregorboehl.com/data"
+          for f in \
+            rank_short0_res.npz \
+            rank_spreads_exo_ztrend_SW_BAA_9820_ninit_0_meta.npz \
+            rank_spreads_exo_ztrend_SW_BAA_9820_ninit_0_res.npz
+          do
+            curl --fail --location --retry 8 --retry-all-errors --retry-delay 2 \
+              --connect-timeout 20 --max-time 2400 \
+              --user-agent "Mozilla/5.0 GitHub-Actions-DSGE-Relay" \
+              "$base/$f" -o "relay/$f"
+          done
+          sha256sum relay/*.npz | tee relay/SHA256SUMS.txt
+          ls -lh relay
+
+      - name: Validate archives and inspect shapes
+        shell: python
+        run: |
+          import hashlib, json, pathlib, zipfile
+          out={}
+          for p in pathlib.Path('relay').glob('*.npz'):
+              with zipfile.ZipFile(p) as z:
+                  bad=z.testzip()
+                  if bad: raise RuntimeError(f'{p.name}: corrupt member {bad}')
+                  entries=z.namelist()
+              out[p.name]={"bytes":p.stat().st_size,
+                           "sha256":hashlib.sha256(p.read_bytes()).hexdigest(),
+                           "zip_entries":entries}
+          pathlib.Path('relay/MANIFEST.json').write_text(json.dumps(out,indent=2))
+          print(json.dumps(out,indent=2))
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dsge-6408-reextract-relay
+          path: relay/
+          compression-level: 0
+          retention-days: 3
+          if-no-files-found: error
