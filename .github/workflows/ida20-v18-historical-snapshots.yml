@@ -1,0 +1,56 @@
+name: IDA20 V18 validated historical snapshots
+on:
+  push:
+    branches: [oecd-raw-data-20261017]
+    paths: ['.github/workflows/ida20-v18-historical-snapshots.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  retrieve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Fetch exact-date snapshots using public interface filter syntax
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request,urllib.parse,json,pathlib,hashlib,gzip,datetime,concurrent.futures
+          out=pathlib.Path('snapshots');out.mkdir(exist_ok=True)
+          base='https://datacatalogapi.worldbank.org/dexapps/fone/api/apiservice'
+          dates=[f'30-Jun-{y}' for y in range(2019,2026)]+[f'31-Dec-{y}' for y in (2019,2020,2021,2022,2023,2024)]
+          def fetch(snap):
+            name=datetime.datetime.strptime(snap,'%d-%b-%Y').strftime('%Y-%m-%d');records=[];seen=set();logs=[];status='FAILED';error=None;count=None
+            try:
+              for page in range(20):
+                params={'datasetId':'DS00976','resourceId':'RS00906','top':1000,'skip':1000*page,'type':'json','filter':f"end_of_period='{snap}'"}
+                url=base+'?'+urllib.parse.urlencode(params)
+                with urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 Historical public IDA data research'}),timeout=90) as resp:raw=resp.read()
+                (out/f'{name}_page_{page:03}.json.gz').write_bytes(gzip.compress(raw,mtime=0))
+                obj=json.loads(raw);rows=obj.get('data');count=obj.get('count')
+                if not isinstance(rows,list):raise ValueError('Unexpected response schema')
+                logs.append({'url':url,'rows':len(rows),'count':count,'sha256':hashlib.sha256(raw).hexdigest()})
+                for r in rows:
+                  if r.get('end_of_period')!=snap:raise ValueError('Filter not honored: '+str(r.get('end_of_period')))
+                  key=(r['credit_number'],r['end_of_period'])
+                  if key in seen:raise ValueError('Repeated identifier '+str(key))
+                  seen.add(key);records.append(r)
+                if len(rows)<1000:
+                  if int(count)!=len(records):raise ValueError(f'Count mismatch {count} {len(records)}')
+                  status='COMPLETE_VALIDATED';break
+              else:raise ValueError('Pagination cap')
+            except Exception as e:error=repr(e)
+            manifest={'snapshot':snap,'status':status,'error':error,'rows':len(records),'count':count,'pages':logs}
+            (out/f'{name}_records.json.gz').write_bytes(gzip.compress(json.dumps(records).encode(),mtime=0))
+            (out/f'{name}_manifest.json').write_text(json.dumps(manifest,indent=2));print(name,status,len(records),error,flush=True)
+            return manifest
+          with concurrent.futures.ThreadPoolExecutor(max_workers=3) as p:ms=list(p.map(fetch,dates))
+          (out/'SNAPSHOT_MANIFEST.json').write_text(json.dumps(ms,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ida20-v18-historical-snapshots
+          path: snapshots/
+          retention-days: 20
+          if-no-files-found: error
