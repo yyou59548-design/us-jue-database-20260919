@@ -1,0 +1,77 @@
+name: Fetch OECD CRDF-RP original workbooks
+on:
+  push:
+    branches: [oecd-raw-data-20261017]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fetch-oecd-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Download official OECD XLSX files and verify contents
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+          import hashlib, json, zipfile, time
+          out=Path('raw')
+          out.mkdir(exist_ok=True)
+          specs={
+            2023: {'url':'https://webfs.oecd.org/climate/RecipientPerspective/CRDF-RP_2023.xlsx','size':9391685},
+            2024: {'url':'https://webfs.oecd.org/climate/RecipientPerspective/CRDF-RP_2024.xlsx','size':9326618}
+          }
+          fallback={
+            2024:'https://raw.githubusercontent.com/Alyasska/BTR2/main/02_SOURCES/OECD_CRDF-RP_2024.xlsx'
+          }
+          records=[]
+          for year,meta in specs.items():
+            name=f'CRDF-RP_{year}.xlsx'
+            urls=[('OECD_OFFICIAL',meta['url'])]
+            if year in fallback:urls.append(('GITHUB_MIRROR',fallback[year]))
+            data=None
+            attempts=[]
+            origin=None
+            for origin_name,url in urls:
+              try:
+                req=Request(url,headers={'User-Agent':'Mozilla/5.0 OECD CRDF-RP data verification'})
+                with urlopen(req,timeout=120) as resp:
+                  data=resp.read()
+                if len(data)!=meta['size']:
+                  raise ValueError(f'size mismatch: {len(data)} vs {meta["size"]}')
+                if data[:2]!=b'PK':
+                  raise ValueError('invalid XLSX signature')
+                dest=out/name
+                dest.write_bytes(data)
+                with zipfile.ZipFile(dest) as z:
+                  assert z.testzip() is None
+                  assert 'xl/workbook.xml' in z.namelist()
+                origin=(origin_name,url)
+                break
+              except Exception as e:
+                attempts.append({'source':origin_name,'url':url,'error':str(e)})
+                data=None
+            if data is None:
+              records.append({'year':year,'filename':name,'status':'DOWNLOAD_FAILED','attempts':attempts})
+              continue
+            blobhash=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\\0'+data).hexdigest()
+            rec={'year':year,'filename':name,'status':'VERIFIED_XLSX','source_type':origin[0],
+                 'source_url':origin[1],'byte_size':len(data),
+                 'sha256':hashlib.sha256(data).hexdigest(),'git_blob_sha1':blobhash,
+                 'size_matches_official_directory':len(data)==meta['size'],
+                 'matches_known_2024_github_blob':(blobhash=='42d955a00c01ac90ad459e2472db23a2292894bd') if year==2024 else None,
+                 'attempts':attempts}
+            records.append(rec)
+            print(json.dumps(rec,ensure_ascii=False))
+          (out/'SOURCE_MANIFEST.json').write_text(json.dumps(records,indent=2,ensure_ascii=False),encoding='utf-8')
+          PY
+      - name: Upload authentic workbook(s)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: oecd-crdf-rp-2023-2024-verified
+          path: raw/
+          if-no-files-found: error
+          retention-days: 30
