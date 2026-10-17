@@ -1,0 +1,57 @@
+name: IDA20 V18 country policy reference
+on:
+  push:
+    branches: [oecd-raw-data-20261017]
+    paths: ['.github/workflows/ida20-v18-country-policy.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - shell: bash
+        run: |
+          python - <<'PY'
+          import pathlib,json,urllib.request,urllib.parse,re,hashlib,concurrent.futures
+          from html.parser import HTMLParser
+          out=pathlib.Path('country_policy');out.mkdir(exist_ok=True)
+          sources={
+          'debt_ui.js':'https://ida.worldbank.org/etc.clientlibs/worldbankgroup/clientlibs/clientlib-ida-comps/debt_embedcode/clientlibs/site.js',
+          'public_country_list.json':'https://idasysext.worldbank.org/data/api/External/SDFP/Data/Country',
+          'annual_appendix_2021.html':'https://thedocs.worldbank.org/en/doc/09cf7c8aba7fe940859e1408a1df32fa-0090012021/wbar21-fy21-lending-presentation-appendix',
+          'SDFP_2021_supplement.html':'https://documents.worldbank.org/en/publication/documents-reports/documentdetail/944051625848036843',
+          'IEG_SDFP_cover.html':'https://ieg.worldbankgroup.org/evaluations/international-development-associations-sustainable-development-finance-policy'}
+          def fetch(pair):
+            name,url=pair
+            try:
+              with urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 Public policy source verification'}),timeout=90) as r:data=r.read();ct=r.headers.get('Content-Type')
+              (out/name).write_bytes(data)
+              return {'name':name,'url':url,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest(),'content_type':ct,'status':'DOWNLOADED'}
+            except Exception as e:return {'name':name,'url':url,'status':'FAILED','error':repr(e)}
+          with concurrent.futures.ThreadPoolExecutor(max_workers=3) as p:log=list(p.map(fetch,sources.items()))
+          class P(HTMLParser):
+            def __init__(self):super().__init__();self.links=[]
+            def handle_starttag(self,t,a):
+              d=dict(a)
+              if t=='a' and d.get('href'):self.links.append(d['href'])
+          ext=[];links={}
+          for name,url in sources.items():
+            if name.endswith('.html') and (out/name).exists():
+              ps=P();ps.feed((out/name).read_text(errors='replace'));links[name]=ps.links
+              for i,h in enumerate(ps.links):
+                h=urllib.parse.urljoin(url,h)
+                if '.pdf' in h.lower() and urllib.parse.urlparse(h).hostname in ('thedocs.worldbank.org','documents1.worldbank.org','ieg.worldbankgroup.org'):
+                  ext.append((name+f'_{i}.pdf',h))
+          with concurrent.futures.ThreadPoolExecutor(max_workers=3) as p:log.extend(p.map(fetch,ext))
+          (out/'MANIFEST.json').write_text(json.dumps(log,indent=2));(out/'LINKS.json').write_text(json.dumps(links,indent=2))
+          print(json.dumps(log),flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ida20-v18-country-policy
+          path: country_policy/
+          retention-days: 20
+          if-no-files-found: error
