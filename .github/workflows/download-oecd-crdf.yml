@@ -56,7 +56,7 @@ jobs:
             if data is None:
               records.append({'year':year,'filename':name,'status':'DOWNLOAD_FAILED','attempts':attempts})
               continue
-            blobhash=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\\0'+data).hexdigest()
+            blobhash=hashlib.sha1(b'blob '+str(len(data)).encode()+bytes([0])+data).hexdigest()
             rec={'year':year,'filename':name,'status':'VERIFIED_XLSX','source_type':origin[0],
                  'source_url':origin[1],'byte_size':len(data),
                  'sha256':hashlib.sha256(data).hexdigest(),'git_blob_sha1':blobhash,
