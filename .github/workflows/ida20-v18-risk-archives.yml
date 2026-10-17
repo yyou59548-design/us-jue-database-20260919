@@ -1,0 +1,37 @@
+name: IDA20 V18 historical risk archives
+on:
+  push:
+    branches: [oecd-raw-data-20261017]
+    paths: ['.github/workflows/ida20-v18-risk-archives.yml']
+permissions:
+  contents: read
+jobs:
+  retrieve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request,pathlib,json,hashlib,concurrent.futures
+          out=pathlib.Path('risk_archives');out.mkdir(exist_ok=True)
+          src={
+          'sdfp_public_ui.js':'https://idasysext.worldbank.org/SDF/web/ida_sdfp.js',
+          'DMF_country_profiles_2021.pdf':'https://documents1.worldbank.org/curated/en/312781626723345781/pdf/Debt-Management-Monitor-DMF-Country-Profiles-Debt-Management-Technical-Assistance-2012-2020.pdf',
+          'DMF_country_profiles_2022.pdf':'https://documents1.worldbank.org/curated/en/099603407282225652/pdf/IDU0684e59a004b3504e5c090da08c0a67bb25f0.pdf'}
+          def get(it):
+            name,url=it
+            try:
+              with urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 Public historical policy research'}),timeout=120) as r:data=r.read()
+              (out/name).write_bytes(data);return {'name':name,'url':url,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest(),'status':'DOWNLOADED'}
+            except Exception as e:return {'name':name,'url':url,'status':'FAILED','error':repr(e)}
+          with concurrent.futures.ThreadPoolExecutor(max_workers=3) as p:ms=list(p.map(get,src.items()))
+          (out/'MANIFEST.json').write_text(json.dumps(ms,indent=2));print(json.dumps(ms))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ida20-v18-risk-archives
+          path: risk_archives/
+          retention-days: 20
+          if-no-files-found: error
