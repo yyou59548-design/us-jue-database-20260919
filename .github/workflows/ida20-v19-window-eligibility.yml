@@ -1,0 +1,69 @@
+name: IDA20 V19 annual eligibility and window evidence
+on:
+  push:
+    branches: [oecd-raw-data-20261017]
+    paths: ['.github/workflows/ida20-v19-window-eligibility.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Download official public sources without transforming originals
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request,urllib.parse,pathlib,json,hashlib,zipfile,re,datetime
+          out=pathlib.Path('sources');out.mkdir(exist_ok=True);logs=[]
+          targets={
+          'FY24_allocations.xlsx':'https://thedocs.worldbank.org/en/doc/e80527114dca95bac86457f385a635b4-0410012024/related/FY24-Allocations-Table.xlsx',
+          'FY25_allocations.xlsx':'https://thedocs.worldbank.org/en/doc/b7a9fb253a13312712b07404ce9cd94e-0410012026/related/FY25-Allocations-Table.xlsx',
+          'FY18_FY26_country_windows.xlsx':'https://thedocs.worldbank.org/en/doc/d10b602dae852c89b8137efe836bfea2-0410012026/related/IDA-FY18-FY26-commitments-per-country-window-final-distribution-4.xlsx',
+          'FY24_allocations.pdf':'https://documents1.worldbank.org/curated/en/099122024175018627/pdf/BOSIB1a7d5cce106b1aa8212e5646aecdf1.pdf',
+          'FY23_allocations.pdf':'https://documents1.worldbank.org/curated/en/099011024162541743/pdf/BOSIB198e373850ad1a9ba11c03db91b147.pdf',
+          'IDA_financial_documents.html':'https://ida.worldbank.org/en/financing/ida-financial-documents',
+          'CAW_four_countries.html':'https://adf.afdb.org/african-development-banks-climate-action-window-channels-31m-to-boost-climate-resilience-in-four-countries/',
+          'CAW_Madagascar.html':'https://www.afdb.org/en/news-and-events/press-releases/madagascar-african-development-fund-approves-grant-over-9-million-strengthen-protection-and-sustainable-use-systems-natural-capital-and-ecosystems-79807',
+          'FY25_document_metadata.json':'https://search.worldbank.org/api/v2/wds?format=json&qterm=IDA%20Country%20Allocations%20for%20FY25&rows=5&fl=docdt,display_title,pdfurl,txturl,url'
+          }
+          def fetch(name,url):
+            rec={'filename':name,'url':url,'time_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+            try:
+              req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 academic public-data archival'})
+              with urllib.request.urlopen(req,timeout=75) as r:raw=r.read();rec['final_url']=r.url;rec['content_type']=r.headers.get('Content-Type')
+              p=out/name;p.write_bytes(raw)
+              if name.endswith('.xlsx'):
+                with zipfile.ZipFile(p) as z:assert z.testzip() is None and 'xl/workbook.xml' in z.namelist()
+              if name.endswith('.pdf'):assert raw[:4]==b'%PDF'
+              if name.endswith('.json'):json.loads(raw)
+              rec.update(status='RECEIVED',bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest())
+              logs.append(rec);print(json.dumps(rec),flush=True);return raw
+            except Exception as e:rec.update(status='FAILED',error=repr(e));logs.append(rec);print(json.dumps(rec),flush=True)
+          for name,url in targets.items():fetch(name,url)
+          # Discover additional official Excel links directly from the archived page.
+          html=(out/'IDA_financial_documents.html').read_text(errors='replace') if (out/'IDA_financial_documents.html').exists() else ''
+          urls=list(dict.fromkeys(re.findall(r'href=[\"\x27]([^\"\x27]+)[\"\x27]',html)))
+          n=0
+          for url in urls:
+            if url.startswith('https://') and '.xlsx' in url.lower() and re.search(r'FY(19|20|21|22|23)',url,re.I) and url not in targets.values():
+              n+=1
+              if n<=7:fetch('additional_'+str(n)+'_'+url.split('/')[-1].split('?')[0],url.replace('&amp;','&'))
+          # Download only exact FY25 document records, not unrelated search hits.
+          p=out/'FY25_document_metadata.json'
+          if p.exists():
+            obj=json.loads(p.read_text());docs=obj.get('documents',{})
+            for key,r in docs.items():
+              if isinstance(r,dict) and 'FY25' in str(r.get('display_title','')) and r.get('pdfurl'):
+                fetch('FY25_allocations.pdf',r['pdfurl'])
+          (out/'MANIFEST.json').write_text(json.dumps(logs,indent=2))
+          PY
+      - name: Preserve actual files and status manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ida20-v19-eligibility-window-sources
+          path: sources/
+          retention-days: 20
+          if-no-files-found: error
